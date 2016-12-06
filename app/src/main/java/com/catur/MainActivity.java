@@ -167,29 +167,30 @@ public class MainActivity extends AppCompatActivity {
                 mSocket = new Socket("xinuc.org", 7387);
                 InputStream is = mSocket.getInputStream();
 
-                byte[] buffer = new byte[40];
-                int read = is.read(buffer);
 
-//                StringBuilder sb = new StringBuilder();
-//                int r;
-//                while ((r = is.read()) != -1) {
-//                    char c = (char) r;
-//                    if (c == '\n') {
-//                        String sbString = sb.toString();
-//                        publishProgress(sbString );
-//                        sb = new StringBuilder();
-//                        continue;
-//                    }
-//                    sb.append(c);
-//                }
 
-                while(read != -1){
-                    if (isCancelled()) {
-                        break;
+                StringBuilder sb = new StringBuilder();
+                int r;
+                while ((r = is.read()) != -1) {
+                    char c = (char) r;
+                    if (c == '\n') {
+                        String sbString = sb.toString();
+                        publishProgress(sbString );
+                        sb = new StringBuilder();
+                        continue;
                     }
-                    publishProgress(new String(buffer, "UTF-8") );
-                    read = is.read(buffer);
+                    sb.append(c);
                 }
+
+//                byte[] buffer = new byte[40];
+//                int read = is.read(buffer);
+//                while(read != -1){
+//                    if (isCancelled()) {
+//                        break;
+//                    }
+//                    publishProgress(new String(buffer, "UTF-8") );
+//                    read = is.read(buffer);
+//                }
 
 //                int bytesRead;
 //                StringBuilder hasilStringBuilder = new StringBuilder();
@@ -223,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
+            Log.i("Test", values[0]);
             String[] line = values[0].split(" ");
             for (int i= 0; i<line.length; i++) {
                 // String [] itemInLine = line[i].split(",");
